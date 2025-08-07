@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Builds
+api/dist/
+web/dist/
+
+# Local env
+.env
+web/.env
+api/local.settings.json
+
+# Database
+/db/*.db
+/db/*.sqlite
+/db/*.sqlite3
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor
+.vscode/
+.DS_Store
+
+# Coding History
+.history

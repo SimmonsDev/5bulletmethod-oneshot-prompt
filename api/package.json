@@ -1,0 +1,26 @@
+{
+  "name": "5bulletmethod-api",
+  "version": "0.1.0",
+  "private": true,
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p .",
+    "start": "func start",
+    "dev": "npm run build && func start",
+    "clean": "rimraf dist",
+    "db:init": "node ./scripts/db-init.cjs",
+    "db:seed": "node ./scripts/db-seed.cjs"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.4.0",
+    "5bulletmethod": "file:..",
+    "better-sqlite3": "^9.4.3",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.9",
+    "@types/node": "^20.12.7",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.4.5"
+  }
+}

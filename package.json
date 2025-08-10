@@ -1,0 +1,20 @@
+{
+  "name": "5bulletmethod-monorepo",
+  "private": true,
+  "workspaces": [
+    "api",
+    "web"
+  ],
+  "scripts": {
+  "install:all": "npm --workspaces install",
+    "db:init": "node ./db/init.js",
+    "db:seed": "node ./db/seed.js",
+  "dev": "concurrently \"npm --workspace api run start:dev\" \"npm --workspace web run dev\"",
+  "dev:local": "concurrently \"npm --workspace api run start:local\" \"npm --workspace web run dev\"",
+    "build": "npm --workspace api run build && npm --workspace web run build",
+    "start": "npm --workspace api start && npm --workspace web start"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

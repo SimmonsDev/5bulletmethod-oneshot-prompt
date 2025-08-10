@@ -41,9 +41,10 @@ This app allows users to log their weekly accomplishments in a simple and effici
 - Azure Functions Core Tools v4
 
 ### Setup
-1. Copy env example
+1. Copy env examples
 ```pwsh
-Copy-Item .env.example .env
+Copy-Item .env.example .env -ErrorAction SilentlyContinue
+Copy-Item web/.env.example web/.env -ErrorAction SilentlyContinue
 ```
 2. Install dependencies
 ```pwsh

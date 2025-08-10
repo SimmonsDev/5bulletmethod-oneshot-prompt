@@ -1,5 +1,10 @@
 # Dependencies
 node_modules/
+db/*.db
+api/dist/
+web/dist/
+.env
+web/.env
 
 # Builds
 api/dist/

@@ -1,0 +1,12 @@
+{
+  "name": "5bulletmethod-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "commonjs",
+  "dependencies": {
+    "better-sqlite3": "^8.0.0"
+  },
+  "scripts": {
+    "seed": "node seed.js"
+  }
+}

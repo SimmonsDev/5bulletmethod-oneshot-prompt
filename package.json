@@ -1,0 +1,25 @@
+{
+  "name": "5bulletmethod",
+  "version": "1.0.0",
+  "description": "5BulletMethod - Weekly productivity journaling app",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install && cd api && npm install && cd ../web && npm install && cd ../db && npm install",
+    "db:init": "cd db && node setup.js init",
+    "db:seed": "cd db && node setup.js seed",
+    "db:reset": "cd db && node setup.js reset",
+    "start:api": "cd api && npm start",
+    "start:web": "cd web && npm run dev",
+    "dev": "concurrently \"npm run start:api\" \"npm run start:web\"",
+    "build": "cd api && npm run build && cd ../web && npm run build",
+    "test": "echo \"No tests yet\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  },
+  "workspaces": [
+    "api",
+    "web",
+    "db"
+  ]
+}

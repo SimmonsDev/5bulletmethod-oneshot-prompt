@@ -1,0 +1,14 @@
+{
+  "name": "5bulletmethod-db",
+  "version": "1.0.0",
+  "description": "Database setup and management for 5BulletMethod",
+  "main": "setup.js",
+  "scripts": {
+    "init": "node setup.js init",
+    "seed": "node setup.js seed",
+    "reset": "node setup.js reset"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.0.0"
+  }
+}

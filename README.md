@@ -1,82 +1,186 @@
-# 5BulletMethod (MVP)
+# 5BulletMethod
 
-A local-only MVP of a weekly productivity journaling app. Users add up to 5 bullet accomplishments per week, view history, see a streak, and receive a simple motivational insight.
+A weekly productivity journaling app where users log 5 bullet-point accomplishments each week.
 
-## This repo is a learning source
-I'm using this repo to learn about vibe codoing a full-stack app with React, Azure Functions, and SQLite. It is not currently ready to be production-ready and may never be.
+## Features
 
-Currently, there are several branches for development of the app using different models. 
+- **Weekly Entries**: Create one entry per week with up to 5 bullet items
+- **Rich Content**: Each bullet includes emoji, description, and optional category
+- **History View**: Browse previous weekly entries
+- **Streak Tracker**: Track consecutive weeks with completed entries
+- **AI Insights**: Get motivational feedback after each entry
+- **Local Development**: Runs entirely locally without external dependencies
 
-- gpt-5
-- gpt-4.1
-- sonnet-4
-- gemini-2.5-pro
+## Tech Stack
 
-Each branch holds an app built using the same one-shot demo prompt as the [5BulletMethod OneShot Demo](.github\prompts\5BulletMethod-OneShot-Demo.prompt.md).
+- **Frontend**: React + Vite + TypeScript + Tailwind CSS
+- **Backend**: Azure Functions (Node.js + TypeScript)
+- **Database**: SQLite with better-sqlite3
+- **Auth**: Simulated (userId = "test-user")
 
-### Content of the master branch
+## Project Structure
 
-The only things in the master branch are these README instructions for you and the one-shot prompt for the creation of the app.
-
-If I significantly change the one-shot prompt, I will create new branches for the models. 
-
-## About the app
-This app allows users to log their weekly accomplishments in a simple and efficient manner. Users can add up to 5 bullet points each week, providing a quick overview of their achievements. The app also tracks the user's streak of weekly entries and offers motivational insights based on their logged data. It was designed to help users reflect on their progress and stay motivated and was inspired by Elon Musk's "DOGE email" where he told all federal employees to report "what they got accomplished this week in a simple, 5 bullet point format."
-
-### Tech Stack
-- Frontend: React + Vite (TypeScript) + Tailwind CSS
-- Backend: Azure Functions (Node.js + TypeScript)
-- Database: SQLite via better-sqlite3
-- Auth: Simulated (userId = `test-user`)
-
-### Monorepo Structure
 ```
-/api  – Azure Functions (TypeScript)
-/web  – React + Vite + Tailwind
-/db   – SQLite schema and seed scripts
+/
+├── api/                 # Azure Functions backend
+│   ├── src/
+│   │   └── database.ts  # SQLite database operations
+│   ├── entries/         # CRUD operations for entries
+│   ├── streak/          # Streak calculation endpoint
+│   ├── insight/         # AI insight endpoint
+│   └── ...
+├── web/                 # React frontend
+│   ├── src/
+│   │   ├── components/  # React components
+│   │   └── ...
+│   └── ...
+└── db/                  # Database files
+    ├── schema.sql       # Database schema
+    └── seed.sql         # Sample data
 ```
+
+## Getting Started
 
 ### Prerequisites
+
 - Node.js 18+
-- Azure Functions Core Tools v4
+- npm or yarn
 
-### Setup
-1. Copy env example
-```pwsh
-Copy-Item .env.example .env
+### Installation
+
+1. **Clone and navigate to the project**:
+   ```bash
+   cd 5bulletmethod
+   ```
+
+2. **Install backend dependencies**:
+   ```bash
+   cd api
+   npm install
+   cd ..
+   ```
+
+3. **Install frontend dependencies**:
+   ```bash
+   cd web
+   npm install
+   cd ..
+   ```
+
+4. **Set up the database**:
+   ```bash
+   cd db
+   # The database will be created automatically when the API starts
+   ```
+
+### Running the Application
+
+1. **Start the backend** (in terminal 1):
+   ```bash
+   cd api
+   npm start
+   ```
+   The API will run on http://localhost:7071
+
+2. **Start the frontend** (in terminal 2):
+   ```bash
+   cd web
+   npm run dev
+   ```
+   The app will open at http://localhost:5173
+
+### Seeding Sample Data
+
+To add sample data for testing:
+
+1. Run the API server
+2. The database and tables will be created automatically
+3. You can manually run the seed.sql file using a SQLite client, or add entries through the UI
+
+## API Endpoints
+
+- `POST /entries` - Create new weekly entry
+- `GET /entries` - Get all entries
+- `GET /entries/:id` - Get single entry
+- `PUT /entries/:id` - Update entry
+- `DELETE /entries/:id` - Delete entry
+- `GET /streak` - Get current streak
+- `GET /entries/:id/insight` - Get AI insight for entry
+
+## Data Model
+
+### BulletEntry
+```typescript
+{
+  id: number
+  user_id: string
+  week_start_date: string
+  created_at: string
+  items: BulletItem[]
+}
 ```
-2. Install dependencies
-```pwsh
-npm run install:all
+
+### BulletItem
+```typescript
+{
+  id: number
+  bullet_entry_id: number
+  item_order: number
+  emoji: string
+  text: string
+  category?: string
+  created_at: string
+}
 ```
-3. Initialize and seed DB
-```pwsh
-npm run db:init
-npm run db:seed
+
+## Development
+
+### Adding New Features
+
+1. Update the database schema in `db/schema.sql`
+2. Add new API endpoints in the `api/` directory
+3. Create corresponding frontend components
+4. Update the main App component to include new features
+
+### Building for Production
+
+```bash
+# Build frontend
+cd web
+npm run build
+
+# The backend can be deployed to Azure Functions
+cd api
+npm run build
 ```
-4. Start dev servers (Functions + Vite)
-```pwsh
-npm run dev
+
+## Example Usage
+
+1. Open the app in your browser
+2. Select a week start date
+3. Add 5 bullet items with emojis and descriptions
+4. Optionally add categories to organize your accomplishments
+5. Save the entry
+6. View your streak and previous entries
+7. Get AI insights for motivation
+
+Example entry:
 ```
-- Web at http://localhost:$env:WEB_PORT (default 5173)
-- API at http://localhost:$env:API_PORT (default 7071)
+⚖️ Lost 5 pounds [health]
+🚗 Got oil change [car]
+💅 Nails done [health]
+☎️ Called mom [relationships]
+🎶 Went to Karaoke [social]
+```
 
-### API Overview
-- POST /entries  – Create weekly entry (max 5 items). If already exists for week, returns 409 with existing id.
-- GET /entries   – List entries (most recent first)
-- GET /entries/:id – Get one entry
-- PUT /entries/:id – Replace items (max 5)
-- DELETE /entries/:id – Delete entry
-- GET /streak – Return `{ streak: number }`
-- GET /entries/:id/insight – Returns `{ insight: string }`
+## Contributing
 
-All requests implicitly target user `test-user`.
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test locally
+5. Submit a pull request
 
-### Notes
-- Week starts on Monday (ISO). Stored as YYYY-MM-DD (UTC).
-- Insight is stubbed: "You're staying balanced across life areas!"
+## License
 
-### Troubleshooting
-- If Functions host fails, ensure Azure Functions Core Tools v4 is installed and PATH configured.
-- Delete `/db/5bulletmethod.db` to reset and re-run init/seed.
-- CORS for web dev is allowed via `local.settings.json` (copy example to `api/local.settings.json` if needed).
+MIT License - feel free to use this project for learning and building your own productivity apps!
